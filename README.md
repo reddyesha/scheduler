@@ -15,9 +15,16 @@ This simple app makes a call to a scheduler API to retrieve event data. It then 
 
 In the project directory, run:
 
+with yarn:
 ```
 yarn
 yarn run start
+```
+
+with npm:
+```
+npm i
+npm run start
 ```
 
 This installs all required packages and runs the app in the development mode.<br>
