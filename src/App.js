@@ -36,6 +36,10 @@ class App extends Component {
     setInterval(this.notificationCallback, 1000);
   }
 
+  /**
+   * This function checks for an event that's about to start to display a
+   * notification.
+   */
   notificationCallback() {
     const upcomingEvents = this.state.eventsInUpcoming24Hours;
 
@@ -59,6 +63,14 @@ class App extends Component {
     });
   }
 
+  /**
+   * This function formats schedule data returned by the scheduler API in a few ways:
+   * 1) Get and format dates based on given cron string
+   * 2) Split data into three buckets:
+   *    a) eventsOnLastThreeHours: events that have happened in the previous 3 hours from the current time
+   *    b) eventsInUpcoming24Hours: events happening in the next 24 hours
+   *    c) allOtherEvents: all past and upcoming events outside of the 3 and 24 hour windows
+   */
   getEventData() {
     fetchData().then(schedData => {
       const data = _.map(schedData.data, (datum) => {
@@ -108,6 +120,12 @@ class App extends Component {
     });
   }
 
+  /**
+   * Gets previous and next occurences based on cron string passed in
+   * Returns an object with formatted dates.
+   *
+   * @param {string} cronDate
+   */
   getOccurrences(cronDate) {
     const options = {
       currentDate: new Date(),
@@ -123,7 +141,15 @@ class App extends Component {
     };
   }
 
-  getEventList(eventData, interval, header, subtitle) {
+  /**
+   * Returns an event card with data ordered by timestamp
+   *
+   * @param {Object} eventData
+   * @param {string} interval
+   * @param {string} header
+   * @param {string} subtitle
+   */
+  getEventCard(eventData, interval, header, subtitle) {
 
     const orderedEventData = eventData.sort((a, b) => {
       const dateA = new Date(a.occurrences[interval]);
@@ -157,7 +183,6 @@ class App extends Component {
       </Card>
     );
   }
-  
 
   render() {
     return (
@@ -174,10 +199,10 @@ class App extends Component {
             <h1 className="App-title">Grove Scheduler Challenge</h1>
           </header>
           <div className='CardLayout'>
-            { this.getEventList(this.state.eventsInUpcoming24Hours, 'next', 'Coming up', 'next 24 hours') }
-            { this.getEventList(this.state.eventsInLastThreeHours, 'prev', 'Just passed', 'last three hours') }
-            { this.getEventList(this.state.allOtherEvents, 'next', 'Other upcoming events', 'All upcoming events beyond 24 hours from now') }
-            { this.getEventList(this.state.allOtherEvents, 'prev', 'Other Past events', 'All past events beyond three hours ago from now') }
+            { this.getEventCard(this.state.eventsInUpcoming24Hours, 'next', 'Coming up', 'next 24 hours') }
+            { this.getEventCard(this.state.eventsInLastThreeHours, 'prev', 'Just passed', 'last three hours') }
+            { this.getEventCard(this.state.allOtherEvents, 'next', 'Other upcoming events', 'All upcoming events beyond 24 hours from now') }
+            { this.getEventCard(this.state.allOtherEvents, 'prev', 'Other Past events', 'All past events beyond three hours ago from now') }
           </div>
         </div>
       </MuiThemeProvider>
