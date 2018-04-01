@@ -202,7 +202,7 @@ class App extends Component {
             { this.getEventCard(this.state.eventsInUpcoming24Hours, 'next', 'Coming up', 'next 24 hours') }
             { this.getEventCard(this.state.eventsInLastThreeHours, 'prev', 'Just passed', 'last three hours') }
             { this.getEventCard(this.state.allOtherEvents, 'next', 'Other upcoming events', 'All upcoming events beyond 24 hours from now') }
-            { this.getEventCard(this.state.allOtherEvents, 'prev', 'Other Past events', 'All past events beyond three hours ago from now') }
+            { this.getEventCard(this.state.allOtherEvents, 'prev', 'Other past events', 'All past events beyond three hours ago from now') }
           </div>
         </div>
       </MuiThemeProvider>
